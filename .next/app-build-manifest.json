@@ -1,0 +1,188 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/app/_not-found/page-49201a94db29cd28.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/css/3add334ee59f67ac.css",
+      "static/css/bca0b825c5e4b9b6.css",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/285-b9574094a1206575.js",
+      "static/chunks/app/layout-d93f038298eb1de8.js"
+    ],
+    "/admin/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/app/admin/page-1dc8092573f9d3aa.js"
+    ],
+    "/calculators/bmi/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/app/calculators/bmi/page-9e9fa8696059a124.js"
+    ],
+    "/calculators/calories/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/app/calculators/calories/page-09cc09191e1fe13f.js"
+    ],
+    "/calculators/meal-nutrition/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/app/calculators/meal-nutrition/page-d50d6b40d1668e2d.js"
+    ],
+    "/calculators/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/app/calculators/page-86f91feff6f4aedb.js"
+    ],
+    "/food/[slug]/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/587-29bcc6744c00e4f2.js",
+      "static/chunks/718-006de506c6300790.js",
+      "static/chunks/912-4af83e07b24fc988.js",
+      "static/chunks/app/food/[slug]/page-add6eedb349bcfa9.js"
+    ],
+    "/calculators/macros/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/587-29bcc6744c00e4f2.js",
+      "static/chunks/718-006de506c6300790.js",
+      "static/chunks/app/calculators/macros/page-7a1fc8b93bfd8ba7.js"
+    ],
+    "/quiz/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/app/quiz/page-baeb070c3af495a5.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/912-4af83e07b24fc988.js",
+      "static/chunks/app/page-1c78f62a77cd826f.js"
+    ],
+    "/compare/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/587-29bcc6744c00e4f2.js",
+      "static/chunks/665-ae151280896d1a9e.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/app/compare/page-717a2ef0396c0fa1.js"
+    ],
+    "/discover/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/607-31f126f6cf0154e2.js",
+      "static/chunks/app/discover/page-e021ece9871d4b43.js"
+    ],
+    "/rankings/[category]/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/app/rankings/[category]/page-d548df36a21c65dc.js"
+    ],
+    "/search/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/912-4af83e07b24fc988.js",
+      "static/chunks/app/search/page-144a8d86cf839b5d.js"
+    ],
+    "/substitutes/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/app/substitutes/page-7bef0e3a5dc3addc.js"
+    ],
+    "/tracker/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/482-6362c3b6e7b06f37.js",
+      "static/chunks/607-31f126f6cf0154e2.js",
+      "static/chunks/app/tracker/page-f52becbe516f2775.js"
+    ],
+    "/beauty-tips/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/app/beauty-tips/page-4619abec8e0a6864.js"
+    ],
+    "/rankings/page": [
+      "static/chunks/webpack-7df31094b184e3fc.js",
+      "static/chunks/fd9d1056-0aaf185cd56910d6.js",
+      "static/chunks/117-935237aef6ca8fb0.js",
+      "static/chunks/main-app-c115ac8d4130e06f.js",
+      "static/chunks/972-c7bde96a736fcd00.js",
+      "static/chunks/878-1ade28874cf5175b.js",
+      "static/chunks/912-4af83e07b24fc988.js",
+      "static/chunks/app/rankings/page-9f92e633923b598b.js"
+    ]
+  }
+}
