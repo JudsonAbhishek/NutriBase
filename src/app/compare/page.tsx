@@ -42,22 +42,11 @@ function CompareContent() {
   const searchParams = useSearchParams();
   const { compareList, removeFromCompare, addToCompare, clearCompare } = useNutri();
 
-  // Search & add dropdown state
-  const [selectorOpen, setSelectorOpen] = useState(false);
+  // Food search and category filters for the comparison picker
   const [selectorQuery, setSelectorQuery] = useState("");
   const [selectorCategory, setSelectorCategory] = useState("");
   const [copiedLink, setCopiedLink] = useState(false);
   const comparisonInitialized = useRef(false);
-
-  useEffect(() => {
-    if (!selectorOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectorOpen(false);
-    };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [selectorOpen]);
 
   // Sync url param if specified (e.g. ?slugs=apple,banana,orange)
   useEffect(() => {
@@ -215,7 +204,93 @@ function CompareContent() {
           )}
         </div>
 
-        {/* Selected Foods Horizontal Picker & Add Button */}
+        {/* Food search and category filters */}
+        <section
+          aria-labelledby="compare-food-picker-title"
+          className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
+        >
+          <div className="mb-3">
+            <h2
+              id="compare-food-picker-title"
+              className="text-sm font-bold text-slate-900 dark:text-white"
+            >
+              Find foods to compare
+            </h2>
+            <p className="mt-0.5 text-[11px] text-slate-500">
+              Search by food name or select a food category. Foods already in your comparison are excluded.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label className="block space-y-1">
+              <span className="text-[10px] font-semibold text-slate-500">
+                Search foods
+              </span>
+              <input
+                type="search"
+                value={selectorQuery}
+                onChange={(event) => setSelectorQuery(event.target.value)}
+                placeholder="Search food name..."
+                aria-label="Search foods to compare"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              />
+            </label>
+            <label className="block space-y-1">
+              <span className="text-[10px] font-semibold text-slate-500">
+                Food category
+              </span>
+              <select
+                value={selectorCategory}
+                onChange={(event) => setSelectorCategory(event.target.value)}
+                aria-label="Filter foods by category"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              >
+                <option value="">All categories</option>
+                {FOOD_CATEGORIES.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="mt-3 max-h-48 space-y-1 overflow-y-auto overscroll-contain rounded-xl border border-slate-100 p-1 dark:border-slate-800">
+            {comparedFoods.length >= 5 ? (
+              <p className="px-2 py-5 text-center text-[11px] text-slate-500">
+                All 5 comparison slots are used. Remove a selected food to add another.
+              </p>
+            ) : availableFoodsToAdd.length > 0 ? availableFoodsToAdd.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  addToCompare(item.slug);
+                  setSelectorQuery("");
+                  setSelectorCategory("");
+                }}
+                className="flex w-full items-center gap-2 rounded-xl p-2 text-left text-xs hover:bg-brand-50 dark:hover:bg-slate-800"
+              >
+                <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg">
+                  <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
+                </div>
+                <div>
+                  <span className="block font-bold leading-tight text-slate-800 dark:text-slate-100">
+                    {item.name}
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {item.categoryName} · {item.nutrients.calories} kcal / 100g
+                  </span>
+                </div>
+                <Plus className="ml-auto h-4 w-4 text-brand-600" />
+              </button>
+            )) : (
+              <p className="px-2 py-5 text-center text-[11px] text-slate-500">
+                No matching foods available. Selected foods cannot be added again.
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Selected Foods Comparison Tray */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -249,110 +324,6 @@ function CompareContent() {
               </div>
             ))}
 
-            {/* Add Food Slot */}
-            {comparedFoods.length < 5 && (
-              <div className="relative">
-                <button
-                  onClick={() => setSelectorOpen(!selectorOpen)}
-                  className="w-full h-full min-h-[120px] rounded-2xl border-2 border-dashed border-slate-300 hover:border-brand-500 hover:bg-brand-50/40 text-slate-500 hover:text-brand-600 transition-all flex flex-col items-center justify-center p-3 gap-1"
-                >
-                  <Plus className="w-5 h-5 text-brand-600" />
-                  <span className="text-xs font-bold">Add Food</span>
-                  <span className="text-[10px] text-slate-400">Slot {comparedFoods.length + 1} of 5</span>
-                </button>
-
-                {/* Food picker dialog */}
-                {selectorOpen && (
-                  <div
-                    className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 p-4"
-                    onClick={() => setSelectorOpen(false)}
-                  >
-                    <div
-                      role="dialog"
-                      aria-modal="true"
-                      aria-labelledby="food-picker-title"
-                      className="flex h-[min(36rem,calc(100dvh-2rem))] w-full max-w-md flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-slate-700 dark:bg-slate-900"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <h2 id="food-picker-title" className="text-sm font-bold text-slate-900 dark:text-white">
-                            Find foods to compare
-                          </h2>
-                          <p className="mt-0.5 text-[11px] text-slate-500">
-                            Search by food name or filter by category.
-                          </p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setSelectorOpen(false)}
-                          aria-label="Close food picker"
-                          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <input
-                        type="text"
-                        value={selectorQuery}
-                        onChange={(e) => setSelectorQuery(e.target.value)}
-                        placeholder="Search food name..."
-                        aria-label="Search foods to compare"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                        autoFocus
-                      />
-                      <label className="block space-y-1">
-                        <span className="text-[10px] font-semibold text-slate-500">
-                          Food category
-                        </span>
-                        <select
-                          value={selectorCategory}
-                          onChange={(event) => setSelectorCategory(event.target.value)}
-                          aria-label="Filter foods by category"
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                        >
-                          <option value="">All categories</option>
-                          {FOOD_CATEGORIES.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {category.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                      <div className="min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-contain">
-                        {availableFoodsToAdd.length > 0 ? availableFoodsToAdd.map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => {
-                              addToCompare(item.slug);
-                              setSelectorOpen(false);
-                              setSelectorQuery("");
-                              setSelectorCategory("");
-                            }}
-                            className="flex w-full items-center gap-2 rounded-xl p-2 text-left text-xs hover:bg-brand-50 dark:hover:bg-slate-800"
-                          >
-                            <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg">
-                              <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
-                            </div>
-                            <div>
-                              <span className="block font-bold leading-tight text-slate-800 dark:text-slate-100">{item.name}</span>
-                              <span className="text-[10px] text-slate-500">
-                                {item.categoryName} · {item.nutrients.calories} kcal / 100g
-                              </span>
-                            </div>
-                          </button>
-                        )) : (
-                          <p className="px-2 py-5 text-center text-[11px] text-slate-500">
-                            No matching foods available. Selected foods cannot be added again.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </div>
 

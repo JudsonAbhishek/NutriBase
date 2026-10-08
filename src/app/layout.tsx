@@ -20,6 +20,15 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: "NutriBase — Food & Nutrition Intelligence Platform",
+  applicationName: "NutriBase",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   description:
     "Explore trusted food nutrition data, nutrition facts, a USDA-backed food database, nutrient comparisons, and practical food nutrition calculators with NutriBase.",
   keywords: [
