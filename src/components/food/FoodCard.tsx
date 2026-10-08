@@ -25,6 +25,7 @@ import { DAILY_VALUES } from "@/lib/algorithms/healthCalculators";
 
 interface FoodCardProps {
   food: FoodItem;
+  priority?: boolean;
 }
 
 const DIETARY_CONFIG: Record<
@@ -454,7 +455,7 @@ function QuickViewModal({
 }
 
 /* ─── High-End Food Card ─────────────────────────────────────── */
-export function FoodCard({ food }: FoodCardProps) {
+export function FoodCard({ food, priority = false }: FoodCardProps) {
   const { isInCompare, addToCompare, removeFromCompare, isFavorite, toggleFavorite } =
     useNutri();
   const compared = isInCompare(food.slug);
@@ -517,9 +518,11 @@ export function FoodCard({ food }: FoodCardProps) {
             src={cardImgSrc}
             alt={food.name}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            loading="lazy"
+            priority={priority}
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
             onError={() => setCardImgSrc(getFoodFallbackImage(food))}
           />
           {/* Subtle Dark Vignette */}

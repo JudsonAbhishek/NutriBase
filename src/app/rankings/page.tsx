@@ -6,7 +6,7 @@ import { FoodCard } from "@/components/food/FoodCard";
 import { Award, Flame, Dumbbell, ShieldCheck, Heart, ArrowRight, Apple, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Top Food Nutrition Rankings — NutriBase",
+  title: "Top Ranking Foods — NutriBase",
   description: "Explore authoritative rankings: Top High Protein Foods, Lowest Calorie Foods, Top Fiber Sources, and Essential Mineral Leaders.",
 };
 
@@ -81,13 +81,13 @@ export default function RankingsIndexPage() {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold">
             <Award className="w-3.5 h-3.5" />
-            <span>Nutritional Superlatives</span>
+            <span>Top Ranking Foods</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-            Scientific Food & Nutrition Rankings
+            Top Ranking Foods
           </h1>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Data-backed rankings across vital macros, vitamins, and minerals. Calculated strictly using 100g standard reference basis from USDA FoodData Central and ICMR-NIN.
+            Explore foods ranked by protein, calories, fiber, and key minerals, using 100g reference values from USDA FoodData Central and ICMR-NIN.
           </p>
         </div>
 

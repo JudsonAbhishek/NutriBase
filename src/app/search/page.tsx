@@ -539,8 +539,12 @@ function SearchContent() {
             {/* Food Grid */}
             {filteredFoods.length > 0 ? (
               <div className="food-results-scroll grid grid-cols-1 gap-6 sm:grid-cols-2 xl:max-h-[calc(100dvh-12rem)] xl:grid-cols-3 xl:overflow-y-auto xl:pr-2">
-                {filteredFoods.map((food) => (
-                  <FoodCard key={food.id} food={food} />
+                {filteredFoods.map((food, index) => (
+                  <FoodCard
+                    key={food.id}
+                    food={food}
+                    priority={index < 2}
+                  />
                 ))}
               </div>
             ) : (

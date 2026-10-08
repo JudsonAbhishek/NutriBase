@@ -548,7 +548,7 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200 pb-4">
           <div>
             <span className="text-[11px] uppercase font-bold tracking-wider text-brand-600 block">
-              Rankings & Leaderboards
+              Top Ranking Foods
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Top High Protein Superfoods
@@ -558,7 +558,7 @@ export default function HomePage() {
             href="/rankings"
             className="text-xs font-bold text-brand-600 hover:underline flex items-center gap-1"
           >
-            View All Leaderboards &rarr;
+            View All Top Ranking Foods &rarr;
           </Link>
         </div>
 
@@ -566,6 +566,50 @@ export default function HomePage() {
           {highProteinPicks.map((food) => (
             <FoodCard key={food.id} food={food} />
           ))}
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="nutrition-intelligence-heading"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+          <h2
+            id="nutrition-intelligence-heading"
+            className="text-xl font-black tracking-tight text-slate-900 dark:text-white"
+          >
+            Food nutrition, made easier to understand
+          </h2>
+          <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            NutriBase is a food nutrition database for exploring nutrition facts
+            and food data per 100g, comparing nutrients, and discovering healthy
+            food options. Use food search and discovery to find foods, browse
+            food categories and category lists, and look up Indian foods with
+            our food search engine. Explore nutrient information in our growing
+            database, informed by USDA FoodData Central and ICMR-NIN references.
+            You can also use our food nutrition calculators to estimate daily
+            calories, protein, carbohydrates, and other macronutrients. Compare
+            fiber, vitamins C and E, calcium, omega-3, and iron in foods, review
+            nutrition in a meal, and explore high-protein, high-fiber, low-calorie,
+            vegetarian, and iron-rich food options. Browse food rankings to find
+            nutrient-dense choices and support balanced, healthy eating. Compare
+            foods by protein, calories, fiber, and other nutrients, or use our BMI,
+            BMR, daily calorie, macro, and meal nutrition calculators.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+            <Link href="/search" className="hover:underline">
+              Explore the food database
+            </Link>
+            <Link href="/calculators" className="hover:underline">
+              Try nutrition calculators
+            </Link>
+            <Link href="/compare" className="hover:underline">
+              Compare nutrition information
+            </Link>
+            <Link href="/rankings" className="hover:underline">
+              Browse top ranking foods
+            </Link>
+          </div>
         </div>
       </section>
 

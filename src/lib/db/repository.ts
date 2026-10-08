@@ -166,10 +166,7 @@ export class FoodRepository {
       );
     }
 
-    // 7. Keep card grids visually varied when source records share an image.
-    results = FoodRepository.uniqueByImage(results);
-
-    // 8. Sorting
+    // 7. Sorting
     switch (options.sortBy) {
       case "protein":
         results.sort((a, b) => b.nutrients.protein - a.nutrients.protein);

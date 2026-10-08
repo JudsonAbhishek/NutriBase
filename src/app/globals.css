@@ -13,6 +13,25 @@
     overflow-x: clip;
   }
 
+  select {
+    max-width: 100%;
+    color-scheme: light;
+  }
+
+  select option {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  html.dark select {
+    color-scheme: dark;
+  }
+
+  html.dark select option {
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+
   html {
     overflow-x: clip;
   }

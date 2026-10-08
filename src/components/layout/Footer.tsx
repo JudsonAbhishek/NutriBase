@@ -109,10 +109,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Rankings */}
+          {/* Top Ranking Foods */}
           <div>
             <h4 className="text-[11px] font-black uppercase tracking-wider text-slate-200 mb-3.5">
-              Top Rankings
+              Top Ranking Foods
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
@@ -143,6 +143,61 @@ export function Footer() {
             </ul>
           </div>
         </div>
+
+        <section
+          aria-labelledby="footer-nutrition-guide"
+          className="border-y border-slate-800/80 py-6"
+        >
+          <h2
+            id="footer-nutrition-guide"
+            className="text-sm font-bold text-slate-200"
+          >
+            Explore food nutrition with NutriBase
+          </h2>
+          <p className="mt-2 max-w-5xl text-xs leading-relaxed text-slate-400">
+            NutriBase is an Indian food nutrition database for exploring
+            healthy foods across Fruits, Vegetables, Cereals &amp; Grains,
+            Pulses &amp; Legumes, Nuts &amp; Seeds, Dairy, Meat &amp; Poultry,
+            Seafood &amp; Fish, Eggs, Indian &amp; Traditional Foods, and
+            Snacks &amp; Bakery. Compare foods by nutrition and protein per
+            100g; explore high protein foods, high protein vegetarian foods,
+            vegetarian protein sources, high-fiber foods, iron-rich Indian
+            foods, low-calorie fruits, and Indian superfoods; and find foods
+            high in protein and low in calories for muscle-building goals.
+            NutriBase also provides personalized food recommendations, food
+            comparison, a nutrition tracker, and nutrition calculators for
+            calories, protein and macros, meals, BMI, BMR, and TDEE.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-bold text-emerald-400">
+            <Link href="/search" className="hover:underline">
+              Indian food nutrition database
+            </Link>
+            <Link href="/compare" className="hover:underline">
+              Compare foods by nutrition
+            </Link>
+            <Link href="/discover" className="hover:underline">
+              Personalized food recommendations
+            </Link>
+            <Link href="/calculators" className="hover:underline">
+              Food calorie and nutrition calculators
+            </Link>
+            <Link href="/calculators/macros" className="hover:underline">
+              Protein and macro calculator
+            </Link>
+            <Link href="/tracker" className="hover:underline">
+              Nutrition tracker
+            </Link>
+            <Link href="/rankings" className="hover:underline">
+              High protein and fiber food rankings
+            </Link>
+            <Link
+              href="/rankings/best-vegetarian-protein"
+              className="hover:underline"
+            >
+              Best vegetarian protein sources
+            </Link>
+          </div>
+        </section>
 
         {/* Feedback & Contact */}
         <section className="rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-5 sm:p-7 shadow-lg shadow-emerald-950/20">

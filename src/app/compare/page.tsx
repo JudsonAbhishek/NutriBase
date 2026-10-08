@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FoodRepository } from "@/lib/db/repository";
 import { FOODS } from "@/data/foods";
+import { FOOD_CATEGORIES } from "@/data/categories";
 import { FoodItem } from "@/types/nutrition";
 import { useNutri } from "@/context/NutriContext";
 import { getSmartRatios } from "@/lib/algorithms/healthCalculators";
@@ -44,8 +45,19 @@ function CompareContent() {
   // Search & add dropdown state
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [selectorQuery, setSelectorQuery] = useState("");
+  const [selectorCategory, setSelectorCategory] = useState("");
   const [copiedLink, setCopiedLink] = useState(false);
   const comparisonInitialized = useRef(false);
+
+  useEffect(() => {
+    if (!selectorOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectorOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [selectorOpen]);
 
   // Sync url param if specified (e.g. ?slugs=apple,banana,orange)
   useEffect(() => {
@@ -54,7 +66,10 @@ function CompareContent() {
 
     const slugsParam = searchParams.get("slugs");
     if (slugsParam) {
-      const slugs = slugsParam.split(",").map((s) => s.trim()).filter(Boolean);
+      const validSlugs = new Set(FOODS.map((food) => food.slug));
+      const slugs = [...new Set(slugsParam.split(",").map((s) => s.trim()))]
+        .filter((slug) => validSlugs.has(slug))
+        .slice(0, 5);
       slugs.forEach((slug) => addToCompare(slug));
     } else if (compareList.length === 0) {
       // Default initial comparison for first-time visitors
@@ -71,8 +86,8 @@ function CompareContent() {
   const availableFoodsToAdd = FOODS.filter(
     (f) =>
       !compareList.includes(f.slug) &&
-      (f.name.toLowerCase().includes(selectorQuery.toLowerCase()) ||
-       f.categoryName.toLowerCase().includes(selectorQuery.toLowerCase()))
+      (!selectorCategory || f.categoryId === selectorCategory) &&
+      f.name.toLowerCase().includes(selectorQuery.trim().toLowerCase())
   );
 
   const handleShare = () => {
@@ -113,23 +128,23 @@ function CompareContent() {
   const barChartData = [
     {
       metric: "Calories (kcal)",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, f.nutrients.calories])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, f.nutrients.calories])),
     },
     {
       metric: "Protein (g)",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, f.nutrients.protein])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, f.nutrients.protein])),
     },
     {
       metric: "Carbs (g)",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, f.nutrients.carbohydrates])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, f.nutrients.carbohydrates])),
     },
     {
       metric: "Fiber (g)",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, f.nutrients.fiber])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, f.nutrients.fiber])),
     },
     {
       metric: "Sugar (g)",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, f.nutrients.sugar])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, f.nutrients.sugar])),
     },
   ];
 
@@ -137,27 +152,27 @@ function CompareContent() {
   const radarChartData = [
     {
       subject: "Protein",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.nutrients.protein / 50) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.nutrients.protein / 50) * 100)])),
     },
     {
       subject: "Fiber",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.nutrients.fiber / 28) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.nutrients.fiber / 28) * 100)])),
     },
     {
       subject: "Vitamin C",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.vitamins.vitaminC_mg / 90) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.vitamins.vitaminC_mg / 90) * 100)])),
     },
     {
       subject: "Potassium",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.minerals.potassium_mg / 4700) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.minerals.potassium_mg / 4700) * 100)])),
     },
     {
       subject: "Iron",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.minerals.iron_mg / 18) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.minerals.iron_mg / 18) * 100)])),
     },
     {
       subject: "Calcium",
-      ...Object.fromEntries(comparedFoods.map((f) => [f.name, Math.min(100, (f.minerals.calcium_mg / 1300) * 100)])),
+      ...Object.fromEntries(comparedFoods.map((f) => [f.slug, Math.min(100, (f.minerals.calcium_mg / 1300) * 100)])),
     },
   ];
 
@@ -226,6 +241,7 @@ function CompareContent() {
                 </div>
                 <span className="text-xs font-bold text-slate-900 line-clamp-1">{food.name}</span>
                 <span className="text-[10px] text-slate-400">{food.nutrients.calories} kcal / 100g</span>
+                <span className="mt-1 text-[10px] font-medium text-slate-500">{food.categoryName}</span>
                 <div
                   className="w-full h-1 rounded-full mt-2"
                   style={{ backgroundColor: colors[idx % colors.length] }}
@@ -245,37 +261,93 @@ function CompareContent() {
                   <span className="text-[10px] text-slate-400">Slot {comparedFoods.length + 1} of 5</span>
                 </button>
 
-                {/* Dropdown Modal / Picker */}
+                {/* Food picker dialog */}
                 {selectorOpen && (
-                  <div className="absolute top-full left-0 right-0 sm:w-72 mt-2 bg-white rounded-2xl shadow-xl border border-slate-200 p-3 z-30 space-y-2 animate-in fade-in duration-150">
-                    <input
-                      type="text"
-                      value={selectorQuery}
-                      onChange={(e) => setSelectorQuery(e.target.value)}
-                      placeholder="Type food name..."
-                      className="w-full px-3 py-2 text-xs bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-brand-500"
-                      autoFocus
-                    />
-                    <div className="max-h-56 overflow-y-auto space-y-1">
-                      {availableFoodsToAdd.map((item) => (
+                  <div
+                    className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 p-4"
+                    onClick={() => setSelectorOpen(false)}
+                  >
+                    <div
+                      role="dialog"
+                      aria-modal="true"
+                      aria-labelledby="food-picker-title"
+                      className="flex h-[min(36rem,calc(100dvh-2rem))] w-full max-w-md flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <h2 id="food-picker-title" className="text-sm font-bold text-slate-900 dark:text-white">
+                            Find foods to compare
+                          </h2>
+                          <p className="mt-0.5 text-[11px] text-slate-500">
+                            Search by food name or filter by category.
+                          </p>
+                        </div>
                         <button
-                          key={item.id}
-                          onClick={() => {
-                            addToCompare(item.slug);
-                            setSelectorOpen(false);
-                            setSelectorQuery("");
-                          }}
-                          className="w-full text-left p-2 rounded-xl hover:bg-brand-50 flex items-center gap-2 text-xs"
+                          type="button"
+                          onClick={() => setSelectorOpen(false)}
+                          aria-label="Close food picker"
+                          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
                         >
-                          <div className="relative w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
-                          </div>
-                          <div>
-                            <span className="font-bold text-slate-800 block leading-tight">{item.name}</span>
-                            <span className="text-[10px] text-slate-400">{item.nutrients.calories} kcal</span>
-                          </div>
+                          <X className="h-4 w-4" />
                         </button>
-                      ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={selectorQuery}
+                        onChange={(e) => setSelectorQuery(e.target.value)}
+                        placeholder="Search food name..."
+                        aria-label="Search foods to compare"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                        autoFocus
+                      />
+                      <label className="block space-y-1">
+                        <span className="text-[10px] font-semibold text-slate-500">
+                          Food category
+                        </span>
+                        <select
+                          value={selectorCategory}
+                          onChange={(event) => setSelectorCategory(event.target.value)}
+                          aria-label="Filter foods by category"
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-brand-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                        >
+                          <option value="">All categories</option>
+                          {FOOD_CATEGORIES.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <div className="min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-contain">
+                        {availableFoodsToAdd.length > 0 ? availableFoodsToAdd.map((item) => (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => {
+                              addToCompare(item.slug);
+                              setSelectorOpen(false);
+                              setSelectorQuery("");
+                              setSelectorCategory("");
+                            }}
+                            className="flex w-full items-center gap-2 rounded-xl p-2 text-left text-xs hover:bg-brand-50 dark:hover:bg-slate-800"
+                          >
+                            <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg">
+                              <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
+                            </div>
+                            <div>
+                              <span className="block font-bold leading-tight text-slate-800 dark:text-slate-100">{item.name}</span>
+                              <span className="text-[10px] text-slate-500">
+                                {item.categoryName} · {item.nutrients.calories} kcal / 100g
+                              </span>
+                            </div>
+                          </button>
+                        )) : (
+                          <p className="px-2 py-5 text-center text-[11px] text-slate-500">
+                            No matching foods available. Selected foods cannot be added again.
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -371,6 +443,9 @@ function CompareContent() {
                     Macronutrients Comparison (per 100g)
                   </h3>
                 </div>
+                <p className="text-[11px] leading-relaxed text-slate-500">
+                  Live comparison from the selected foods&apos; nutrition data. Change the foods above to update the chart.
+                </p>
                 <div className="h-72 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -389,8 +464,9 @@ function CompareContent() {
                       <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
                       {comparedFoods.map((f, i) => (
                         <Bar
-                          key={f.name}
-                          dataKey={f.name}
+                          key={f.slug}
+                          dataKey={f.slug}
+                          name={f.name}
                           fill={colors[i % colors.length]}
                           radius={[4, 4, 0, 0]}
                         />
@@ -415,9 +491,9 @@ function CompareContent() {
                       <Tooltip />
                       {comparedFoods.map((f, i) => (
                         <Radar
-                          key={f.name}
+                          key={f.slug}
                           name={f.name}
-                          dataKey={f.name}
+                          dataKey={f.slug}
                           stroke={colors[i % colors.length]}
                           fill={colors[i % colors.length]}
                           fillOpacity={0.25}

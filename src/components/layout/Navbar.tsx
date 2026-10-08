@@ -41,7 +41,7 @@ export function Navbar() {
       count: compareList.length,
     },
     { label: "Calculators", href: "/calculators", icon: Calculator },
-    { label: "Rankings", href: "/rankings", icon: Award },
+    { label: "Top Ranking Foods", href: "/rankings", icon: Award },
     { label: "Tracker", href: "/tracker", icon: CalendarDays },
     { label: "Beauty Tips", href: "/beauty-tips", icon: Flower2 },
     { label: "Fun Quiz", href: "/quiz", icon: Gamepad2 },
@@ -119,17 +119,6 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
-            <Link
-              href="/compare"
-              className="relative p-2 text-slate-600 hover:text-slate-900"
-            >
-              <Scale className="w-5 h-5" />
-              {compareList.length > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white rounded-full text-[10px] flex items-center justify-center font-bold">
-                  {compareList.length}
-                </span>
-              )}
-            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl"

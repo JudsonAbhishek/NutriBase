@@ -94,7 +94,7 @@ export default async function CategoryRankingPage({ params }: RankingPageProps) 
           href="/rankings"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-brand-600 transition-colors"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Rankings Hub
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Top Ranking Foods
         </Link>
 
         {/* Title */}

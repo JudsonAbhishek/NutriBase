@@ -77,7 +77,15 @@ export function NutriProvider({ children }: { children: React.ReactNode }) {
       setTheme(preferredTheme);
 
       const savedCompare = localStorage.getItem("nutribase_compare");
-      if (savedCompare) setCompareList(JSON.parse(savedCompare));
+      if (savedCompare) {
+        const parsedCompare: unknown = JSON.parse(savedCompare);
+        if (Array.isArray(parsedCompare)) {
+          const uniqueCompare = [...new Set(parsedCompare.filter(
+            (slug): slug is string => typeof slug === "string"
+          ))].slice(0, 5);
+          setCompareList(uniqueCompare);
+        }
+      }
 
       const savedFavs = localStorage.getItem("nutribase_favs");
       if (savedFavs) setFavorites(JSON.parse(savedFavs));
@@ -144,12 +152,14 @@ export function NutriProvider({ children }: { children: React.ReactNode }) {
   }, [dailyLog]);
 
   const addToCompare = (slug: string): boolean => {
-    if (compareList.includes(slug)) return true;
+    if (compareList.includes(slug)) return false;
     if (compareList.length >= 5) {
       alert("You can compare up to 5 foods at once. Please remove one first.");
       return false;
     }
-    setCompareList((prev) => [...prev, slug]);
+    setCompareList((prev) =>
+      prev.includes(slug) || prev.length >= 5 ? prev : [...prev, slug]
+    );
     return true;
   };
 
