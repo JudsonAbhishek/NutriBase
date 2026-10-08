@@ -3,10 +3,11 @@ import { FoodRepository } from "@/lib/db/repository";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const food = FoodRepository.getFoodBySlug(params.slug);
+    const { slug } = await params;
+    const food = FoodRepository.getFoodBySlug(slug);
 
     if (!food) {
       return NextResponse.json(

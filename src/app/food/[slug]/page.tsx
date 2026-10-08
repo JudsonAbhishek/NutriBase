@@ -19,13 +19,14 @@ import {
 } from "lucide-react";
 
 interface FoodDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: FoodDetailPageProps): Promise<Metadata> {
-  const food = FoodRepository.getFoodBySlug(params.slug);
+  const { slug } = await params;
+  const food = FoodRepository.getFoodBySlug(slug);
   if (!food) {
     return {
       title: "Food Not Found — NutriBase",
@@ -46,8 +47,9 @@ export async function generateMetadata({ params }: FoodDetailPageProps): Promise
   };
 }
 
-export default function FoodDetailPage({ params }: FoodDetailPageProps) {
-  const food = FoodRepository.getFoodBySlug(params.slug);
+export default async function FoodDetailPage({ params }: FoodDetailPageProps) {
+  const { slug } = await params;
+  const food = FoodRepository.getFoodBySlug(slug);
 
   if (!food) {
     notFound();

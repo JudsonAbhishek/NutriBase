@@ -8,9 +8,9 @@ import { FoodItem } from "@/types/nutrition";
 import { Award, ArrowLeft, ArrowRight, Scale, ShieldCheck } from "lucide-react";
 
 interface RankingPageProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
 const RANKING_CONFIGS: Record<string, { title: string; metricName: string; unit: string; getValue: (f: FoodItem) => number | string; description: string }> = {
@@ -66,7 +66,8 @@ const RANKING_CONFIGS: Record<string, { title: string; metricName: string; unit:
 };
 
 export async function generateMetadata({ params }: RankingPageProps): Promise<Metadata> {
-  const config = RANKING_CONFIGS[params.category];
+  const { category } = await params;
+  const config = RANKING_CONFIGS[category];
   if (!config) return { title: "Ranking Not Found — NutriBase" };
 
   return {
@@ -75,13 +76,14 @@ export async function generateMetadata({ params }: RankingPageProps): Promise<Me
   };
 }
 
-export default function CategoryRankingPage({ params }: RankingPageProps) {
-  const config = RANKING_CONFIGS[params.category];
+export default async function CategoryRankingPage({ params }: RankingPageProps) {
+  const { category } = await params;
+  const config = RANKING_CONFIGS[category];
   if (!config) {
     notFound();
   }
 
-  const foods = FoodRepository.getRankings(params.category, 20);
+  const foods = FoodRepository.getRankings(category, 20);
 
   return (
     <div className="min-h-screen bg-slate-50 py-8">
