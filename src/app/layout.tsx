@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { NutriProvider } from "@/context/NutriContext";
 import { Navbar } from "@/components/layout/Navbar";
@@ -41,6 +42,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6Q5B6KWYH6"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6Q5B6KWYH6');
+          `}
+        </Script>
         <NutriProvider>
           <ServiceWorkerRegistration />
           <BrandPreloader />
