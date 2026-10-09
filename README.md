@@ -54,7 +54,13 @@ Find healthy dietary swaps and view direct nutritional deltas:
 * Real-time progress bars tracking calories and macros against daily targets.
 * 1-click meal logging from the Serving Calculator or Composite Meal Builder.
 
-### 8. 🏆 SEO-Optimized Food Rankings
+### 8. 📝 Personal Notes, Hydration & Body Guide
+* Create searchable text notes and checklists, attach date/time reminders, and keep note/task data in this browser.
+* Track water and other beverages against a customizable fluid goal, review previous-day logs, and configure a reminder schedule around personal waking and sleeping times.
+* Explore a keyboard-accessible body-and-nutrition guide with food recommendations linked to NutriBase food detail pages.
+* Personal notes and hydration records use browser `localStorage` (not account-synced). Reminder times and schedules are saved, but browser notifications and background alarms are not enabled.
+
+### 9. 🏆 SEO-Optimized Food Rankings
 Dynamic leaderboards based on standardized 100g reference values:
 * *Top 20 High Protein Foods*
 * *Top 20 Low Calorie Foods*
@@ -64,7 +70,7 @@ Dynamic leaderboards based on standardized 100g reference values:
 * *Best Protein Sources for Vegetarians*
 * *Best Fruits for Fiber*
 
-### 9. 🛡️ Admin Management Portal (`/admin`)
+### 10. 🛡️ Admin Management Portal (`/admin`)
 * Add new food records, edit nutritional values, and manage categories.
 * Instant JSON batch export.
 * Responsive search and filtering table.

@@ -18,6 +18,10 @@ import {
   Sun,
   Gamepad2,
   Flower2,
+  NotebookPen,
+  Droplets,
+  PersonStanding,
+  ChevronDown,
 } from "lucide-react";
 import { useNutri } from "@/context/NutriContext";
 
@@ -25,6 +29,7 @@ export function Navbar() {
   const pathname = usePathname();
   const { compareList, theme, toggleTheme } = useNutri();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
 
   const navLinks = [
     { label: "Explore Foods", href: "/search", icon: Compass },
@@ -45,7 +50,13 @@ export function Navbar() {
     { label: "Tracker", href: "/tracker", icon: CalendarDays },
     { label: "Beauty Tips", href: "/beauty-tips", icon: Flower2 },
     { label: "Fun Quiz", href: "/quiz", icon: Gamepad2 },
+    { label: "Notes & To-do", href: "/notes", icon: NotebookPen },
+    { label: "Hydration", href: "/hydration", icon: Droplets },
+    { label: "Body Guide", href: "/body-guide", icon: PersonStanding },
   ];
+  const primaryLinks = navLinks.slice(0, 6);
+  const moreLinks = navLinks.slice(6);
+  const moreIsActive = moreLinks.some((link) => pathname === link.href);
 
   return (
     <header className="sticky top-0 z-50 bg-white/85 dark:bg-slate-950/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
@@ -68,7 +79,7 @@ export function Navbar() {
 
           {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
+            {primaryLinks.map((link) => {
               const isActive = pathname === link.href;
               const Icon = link.icon;
               return (
@@ -97,6 +108,45 @@ export function Navbar() {
                 </Link>
               );
             })}
+
+            <div className="relative">
+              <button
+                type="button"
+                aria-expanded={moreMenuOpen}
+                aria-haspopup="true"
+                onClick={() => setMoreMenuOpen((open) => !open)}
+                className={`flex items-center gap-1 rounded-xl px-3 py-2 text-xs font-bold transition-all ${
+                  moreIsActive || moreMenuOpen
+                    ? "border border-emerald-200/70 bg-emerald-50 text-emerald-700"
+                    : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                }`}
+              >
+                More <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreMenuOpen ? "rotate-180" : ""}`} />
+              </button>
+              {moreMenuOpen && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+                  {moreLinks.map((link) => {
+                    const Icon = link.icon;
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMoreMenuOpen(false)}
+                        className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold ${
+                          isActive
+                            ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200"
+                            : "text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4 text-emerald-600" />
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             <button
               type="button"
