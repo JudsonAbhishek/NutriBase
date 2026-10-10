@@ -58,6 +58,18 @@ export function BodyGuide({ foods }: { foods: GuideFood[] }) {
     .filter((food) => dietFilter === "all" || (dietFilter === "vegetarian" ? ["vegan", "vegetarian", "eggetarian"].includes(food.dietaryType) : ["non-vegetarian", "seafood"].includes(food.dietaryType)));
 
   const markerLabel = (part: BodyPart) => `${part.id}. ${part.name}`;
+  const getMarkerLabelPosition = (point: [number, number]) => {
+    const [x, y] = point;
+    const offsetX = x < 160 ? -28 : 28;
+    const offsetY = y > 250 ? 20 : y < 120 ? -20 : 0;
+
+    return {
+      outerX: x + offsetX,
+      outerY: y + offsetY,
+      lineX: x + offsetX * 0.55,
+      lineY: y + offsetY * 0.55,
+    };
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 dark:bg-slate-950">
@@ -81,11 +93,20 @@ export function BodyGuide({ foods }: { foods: GuideFood[] }) {
                 <path d={BODY_SHAPE} fill="url(#bodyFill)" stroke="#94a3b8" strokeWidth="2" />
                 <path d="M160 98v220M126 132h68M139 200h42M142 236h36" fill="none" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" opacity="0.75" />
                 <path d="M145 125c-14 9-14 27 0 34 11 5 17-4 15-12-2-9-8-16-15-22ZM174 125c14 9 14 27 0 34-11 5-17-4-15-12 2-9 8-16 15-22Z" fill="#fb7185" opacity=".7" />
-                {BODY_PARTS.map((part) => <g key={part.id} role="button" tabIndex={0} aria-label={`Select ${markerLabel(part)}`} aria-pressed={selectedId === part.id} onClick={() => setSelectedId(part.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedId(part.id); } }} className="cursor-pointer outline-none">
-                  <circle cx={part.point[0]} cy={part.point[1]} r={selectedId === part.id ? 15 : 12} fill={part.color} stroke="white" strokeWidth="3" className="transition-all" />
-                  <text x={part.point[0]} y={part.point[1] + 4} textAnchor="middle" fill="white" fontSize="10" fontWeight="800" pointerEvents="none">{part.id}</text>
-                  <circle cx={part.point[0]} cy={part.point[1]} r="19" fill="transparent" />
-                </g>)}
+                {BODY_PARTS.map((part) => {
+                  const labelPosition = getMarkerLabelPosition(part.point);
+                  const isSelected = selectedId === part.id;
+
+                  return (
+                    <g key={part.id} role="button" tabIndex={0} aria-label={`Select ${markerLabel(part)}`} aria-pressed={isSelected} onClick={() => setSelectedId(part.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedId(part.id); } }} className="cursor-pointer outline-none">
+                      <line x1={part.point[0]} y1={part.point[1]} x2={labelPosition.lineX} y2={labelPosition.lineY} stroke="#4b5563" strokeWidth="1.6" strokeDasharray="4 5" opacity="0.9" />
+                      <circle cx={part.point[0]} cy={part.point[1]} r="4" fill={part.color} opacity="0.9" />
+                      <circle cx={labelPosition.outerX} cy={labelPosition.outerY} r={isSelected ? 16 : 13} fill={part.color} stroke="white" strokeWidth="3" className="transition-all" />
+                      <text x={labelPosition.outerX} y={labelPosition.outerY + 4} textAnchor="middle" fill="white" fontSize="10" fontWeight="800" pointerEvents="none">{part.id}</text>
+                      <circle cx={part.point[0]} cy={part.point[1]} r="19" fill="transparent" />
+                    </g>
+                  );
+                })}
               </svg>
             </div>
             <p className="text-center text-[11px] text-slate-400">Illustration is a simplified, non-sexual educational silhouette; private and reproductive anatomy is omitted.</p>
