@@ -103,18 +103,19 @@ export function HydrationDashboard() {
     }
   }, [days, loaded, settings]);
 
-  const today = localDateString();
+  const today = loaded ? localDateString() : "";
   const selectedLog = days.find((day) => day.date === selectedDate);
   const drinks = selectedLog?.drinks ?? [];
   const total = drinks.reduce((sum, drink) => sum + drink.amount, 0);
   const remaining = Math.max(0, settings.goal - total);
   const progress = settings.goal > 0 ? Math.min(100, Math.round(total / settings.goal * 100)) : 0;
   const nextReminder = useMemo(() => {
+    if (!loaded) return undefined;
     if (!settings.remindersEnabled || settings.remindersPaused || (total >= settings.goal && !settings.continueAfterGoal)) return undefined;
     const now = new Date();
     const times = scheduleTimes(localDateString(), settings.wake, settings.sleep, settings.interval);
     return times.find((time) => time > now);
-  }, [settings, total]);
+  }, [loaded, settings, total]);
   const history = [...days].filter((day) => day.date !== today).sort((a, b) => b.date.localeCompare(a.date));
 
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
@@ -157,7 +158,7 @@ export function HydrationDashboard() {
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => shiftDate(-1)} aria-label="Previous day" className="rounded-xl border border-slate-200 bg-white p-2.5 text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><ArrowDown className="h-4 w-4" /></button>
             <span className="min-w-24 text-center text-sm font-bold text-slate-700 dark:text-slate-200">{(selectedDate || today) === today ? "Today" : shortDate(selectedDate || today)}</span>
-            <button type="button" disabled={selectedDate >= today} onClick={() => shiftDate(1)} aria-label="Next day" className="rounded-xl border border-slate-200 bg-white p-2.5 text-slate-600 disabled:opacity-40 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><ArrowUp className="h-4 w-4" /></button>
+            <button type="button" disabled={!loaded || selectedDate >= today} onClick={() => shiftDate(1)} aria-label="Next day" className="rounded-xl border border-slate-200 bg-white p-2.5 text-slate-600 disabled:opacity-40 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"><ArrowUp className="h-4 w-4" /></button>
           </div>
         </header>
 
@@ -196,14 +197,14 @@ export function HydrationDashboard() {
             <div className="flex items-center gap-2"><GlassWater className="h-5 w-5 text-sky-600" /><h2 className="text-lg font-black text-slate-900 dark:text-white">Quick add a drink</h2></div>
             <p className="mt-1 text-xs text-slate-500">Quick buttons log water. Use custom entry for other beverages.</p>
             <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {QUICK_AMOUNTS.map((amount) => <button key={amount} type="button" disabled={selectedDate !== today} onClick={() => addDrink(amount)} className="rounded-xl border border-sky-100 bg-sky-50 px-2 py-3 text-sm font-bold text-sky-800 transition hover:border-sky-300 hover:bg-sky-100 disabled:opacity-50 dark:border-sky-900 dark:bg-sky-950/50 dark:text-sky-200 dark:hover:bg-sky-900/60"><Plus className="mr-1 inline h-3.5 w-3.5" />{amount} ml</button>)}
+              {QUICK_AMOUNTS.map((amount) => <button key={amount} type="button" disabled={!loaded || selectedDate !== today} onClick={() => addDrink(amount)} className="rounded-xl border border-sky-100 bg-sky-50 px-2 py-3 text-sm font-bold text-sky-800 transition hover:border-sky-300 hover:bg-sky-100 disabled:opacity-50 dark:border-sky-900 dark:bg-sky-950/50 dark:text-sky-200 dark:hover:bg-sky-900/60"><Plus className="mr-1 inline h-3.5 w-3.5" />{amount} ml</button>)}
             </div>
             <form className="mt-4 grid grid-cols-[1fr_1fr_auto] gap-2" onSubmit={(event) => { event.preventDefault(); addDrink(Number(customAmount), customName); }}>
               <label className="sr-only" htmlFor="drink-name">Beverage name</label>
               <input id="drink-name" value={customName} onChange={(event) => setCustomName(event.target.value)} placeholder="Drink" className="min-w-0 rounded-xl border border-slate-200 px-3 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-800" />
               <label className="sr-only" htmlFor="drink-amount">Volume in milliliters</label>
               <input id="drink-amount" type="number" min="1" step="10" value={customAmount} onChange={(event) => setCustomAmount(event.target.value)} placeholder="ml" className="min-w-0 rounded-xl border border-slate-200 px-3 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-800" />
-              <button type="submit" disabled={selectedDate !== today} className="rounded-xl bg-brand-600 px-3 py-2.5 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">Add</button>
+              <button type="submit" disabled={!loaded || selectedDate !== today} className="rounded-xl bg-brand-600 px-3 py-2.5 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">Add</button>
             </form>
             {selectedDate !== today && <p className="mt-3 text-xs text-slate-500">Past days are read-only.</p>}
           </div>
@@ -212,7 +213,7 @@ export function HydrationDashboard() {
         <section className="grid gap-5 lg:grid-cols-[1fr_0.85fr]">
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
             <div className="flex items-center justify-between gap-3">
-              <div><h2 className="text-lg font-black text-slate-900 dark:text-white">Beverage history</h2><p className="mt-1 text-xs text-slate-500">{shortDate(selectedDate || today)} · {drinks.length} {drinks.length === 1 ? "drink" : "drinks"}</p></div>
+              <div><h2 className="text-lg font-black text-slate-900 dark:text-white">Beverage history</h2><p className="mt-1 text-xs text-slate-500">{selectedDate ? shortDate(selectedDate) : "Today"} · {drinks.length} {drinks.length === 1 ? "drink" : "drinks"}</p></div>
               <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{total.toLocaleString()} ml</span>
             </div>
             {drinks.length === 0 ? <div className="py-10 text-center text-sm text-slate-400">No drinks logged for this day yet.</div> : <ul className="mt-4 divide-y divide-slate-100 dark:divide-slate-800">
@@ -254,8 +255,8 @@ export function HydrationDashboard() {
         <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
           <div className="mb-4 flex items-center justify-between"><div><h2 className="text-lg font-black text-slate-900 dark:text-white">Daily timeline</h2><p className="text-xs text-slate-500">Planned times based on your waking schedule and interval.</p></div><Minus className="h-4 w-4 text-slate-300" /></div>
           <div className="flex gap-2 overflow-x-auto pb-1">
-            {scheduleTimes(selectedDate || today, settings.wake, settings.sleep, settings.interval).map((time) => <div key={time.toISOString()} className={`min-w-24 rounded-xl border px-3 py-2 text-center ${time <= new Date() && selectedDate === today ? "border-brand-200 bg-brand-50 text-brand-800 dark:border-brand-900 dark:bg-brand-950/40 dark:text-brand-200" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-800"}`}><p className="text-xs font-bold">{formatClock(time)}</p><p className="mt-1 text-[10px]">{settings.interval}h interval</p></div>)}
-            {scheduleTimes(selectedDate || today, settings.wake, settings.sleep, settings.interval).length === 0 && <p className="text-xs text-slate-400">No planned time in this interval.</p>}
+            {loaded && scheduleTimes(selectedDate || today, settings.wake, settings.sleep, settings.interval).map((time) => <div key={time.toISOString()} className={`min-w-24 rounded-xl border px-3 py-2 text-center ${time <= new Date() && selectedDate === today ? "border-brand-200 bg-brand-50 text-brand-800 dark:border-brand-900 dark:bg-brand-950/40 dark:text-brand-200" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-800"}`}><p className="text-xs font-bold">{formatClock(time)}</p><p className="mt-1 text-[10px]">{settings.interval}h interval</p></div>)}
+            {!loaded ? <p className="text-xs text-slate-400">Loading schedule…</p> : scheduleTimes(selectedDate || today, settings.wake, settings.sleep, settings.interval).length === 0 && <p className="text-xs text-slate-400">No planned time in this interval.</p>}
           </div>
         </section>
 
