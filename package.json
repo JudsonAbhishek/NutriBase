@@ -9,8 +9,8 @@
     "lint": "next lint",
     "db:seed": "node scripts/seed-db.mjs",
     "cf:build": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
-    "cf:preview": "opennextjs-cloudflare preview --dangerouslyUseUnsupportedNextVersion",
-    "cf:deploy": "opennextjs-cloudflare deploy --dangerouslyUseUnsupportedNextVersion"
+    "cf:preview": "npm run cf:build && wrangler dev",
+    "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.9",
