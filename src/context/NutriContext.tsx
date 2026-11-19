@@ -9,6 +9,10 @@ export type Theme = "light" | "dark";
 interface NutriContextType {
   theme: Theme;
   toggleTheme: () => void;
+  // Local & Nearby Market Availability Filter
+  localMarketOnly: boolean;
+  setLocalMarketOnly: (val: boolean) => void;
+  toggleLocalMarketOnly: () => void;
   // Comparisons
   compareList: string[]; // food slugs
   addToCompare: (slug: string) => boolean;
@@ -53,6 +57,7 @@ const NutriContext = createContext<NutriContextType | undefined>(undefined);
 
 export function NutriProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
+  const [localMarketOnly, setLocalMarketOnlyState] = useState<boolean>(false);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<string[]>(["fruit-apple", "grain-oats", "meat-chicken-breast"]);
   const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
@@ -64,9 +69,27 @@ export function NutriProvider({ children }: { children: React.ReactNode }) {
     snacks: [],
   });
 
+  const setLocalMarketOnly = (val: boolean) => {
+    setLocalMarketOnlyState(val);
+    try {
+      localStorage.setItem("nutribase_local_only", JSON.stringify(val));
+    } catch (e) {
+      console.warn("Unable to save local market preference:", e);
+    }
+  };
+
+  const toggleLocalMarketOnly = () => {
+    setLocalMarketOnly(!localMarketOnly);
+  };
+
   // Load from LocalStorage
   useEffect(() => {
     try {
+      const savedLocalOnly = localStorage.getItem("nutribase_local_only");
+      if (savedLocalOnly !== null) {
+        setLocalMarketOnlyState(JSON.parse(savedLocalOnly));
+      }
+
       const savedTheme = localStorage.getItem("nutribase_theme");
       const preferredTheme =
         savedTheme === "dark" || savedTheme === "light"
@@ -241,6 +264,9 @@ export function NutriProvider({ children }: { children: React.ReactNode }) {
       value={{
         theme,
         toggleTheme,
+        localMarketOnly,
+        setLocalMarketOnly,
+        toggleLocalMarketOnly,
         compareList,
         addToCompare,
         removeFromCompare,

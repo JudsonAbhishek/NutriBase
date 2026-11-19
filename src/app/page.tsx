@@ -179,15 +179,23 @@ export default function HomePage() {
             return (
               <div
                 key={s.step}
-                className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-brand-300 transition-all group"
+                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm hover:shadow-xl hover:border-emerald-400 dark:hover:border-emerald-600 hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
-                  <span className="text-[10px] font-black text-brand-600/60 block mb-2">{s.step}</span>
-                  <div className="w-8 h-8 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200/60 dark:border-emerald-800/60">
+                      {s.step}
+                    </span>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center mb-2.5 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm">
                     <Icon className="w-4 h-4" />
                   </div>
-                  <h3 className="text-xs font-bold text-slate-900">{s.name}</h3>
-                  <p className="text-[10px] text-slate-400 mt-1 leading-snug">{s.desc}</p>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    {s.name}
+                  </h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-snug">
+                    {s.desc}
+                  </p>
                 </div>
               </div>
             );
@@ -276,20 +284,24 @@ export default function HomePage() {
             <Link
               key={cat.id}
               href={`/search?category=${cat.slug}`}
-              className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-400 transition-all flex flex-col justify-between group"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm hover:shadow-xl hover:border-emerald-400/80 dark:hover:border-emerald-600/80 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
             >
-              <div className="space-y-2">
+              <div
+                className="absolute top-0 left-0 right-0 h-1 transition-all group-hover:h-1.5"
+                style={{ backgroundColor: cat.color }}
+              />
+              <div className="space-y-3 pt-1">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-110 transition-transform"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-md group-hover:scale-110 transition-transform"
                   style={{ backgroundColor: cat.color }}
                 >
                   {cat.name.slice(0, 1)}
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                     {cat.name}
                   </h3>
-                  <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 line-clamp-1 mt-0.5">
                     {cat.description}
                   </p>
                 </div>
@@ -407,37 +419,37 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 text-xs">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">
+          <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-900/60 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
+            <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">
               Sample Comparison Breakdown
             </span>
             <div className="space-y-2">
-              <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+              <div className="p-3.5 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center justify-between shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 transition-all">
                 <div>
-                  <span className="font-bold text-slate-800 block">Chicken Breast vs Atlantic Salmon</span>
-                  <span className="text-[10px] text-slate-400">Lean Protein vs Omega-3 Fatty Acids</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 block">Chicken Breast vs Atlantic Salmon</span>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-400">Lean Protein vs Omega-3 Fatty Acids</span>
                 </div>
-                <Link href="/compare?slugs=chicken-breast,salmon" className="text-brand-600 font-bold hover:underline">
+                <Link href="/compare?slugs=chicken-breast,salmon" className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
                   Compare &rarr;
                 </Link>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+              <div className="p-3.5 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center justify-between shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 transition-all">
                 <div>
-                  <span className="font-bold text-slate-800 block">Paneer vs Firm Tofu</span>
-                  <span className="text-[10px] text-slate-400">Vegetarian Casein vs Vegan Calcium</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 block">Paneer vs Firm Tofu</span>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-400">Vegetarian Casein vs Vegan Calcium</span>
                 </div>
-                <Link href="/compare?slugs=paneer,tofu-firm" className="text-brand-600 font-bold hover:underline">
+                <Link href="/compare?slugs=paneer,tofu-firm" className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
                   Compare &rarr;
                 </Link>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+              <div className="p-3.5 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center justify-between shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 transition-all">
                 <div>
-                  <span className="font-bold text-slate-800 block">White Rice vs Brown Rice vs Ragi</span>
-                  <span className="text-[10px] text-slate-400">Fast Glycogen vs High Fiber vs Calcium Millet</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 block">White Rice vs Brown Rice vs Ragi</span>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-400">Fast Glycogen vs High Fiber vs Calcium Millet</span>
                 </div>
-                <Link href="/compare?slugs=white-rice,brown-rice,ragi-finger-millet" className="text-brand-600 font-bold hover:underline">
+                <Link href="/compare?slugs=white-rice,brown-rice,ragi-finger-millet" className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
                   Compare &rarr;
                 </Link>
               </div>
@@ -470,72 +482,72 @@ export default function HomePage() {
           
           <Link
             href="/calculators/bmi"
-            className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-400 transition-all flex flex-col justify-between group space-y-3"
+            className="group relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-xl hover:border-emerald-400/80 dark:hover:border-emerald-600/80 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-4"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition-transform">
-                <Scale className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                <Scale className="w-6 h-6" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-600">BMI Calculator</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">BMI Calculator</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                 Metric & Imperial scale with ideal healthy weight bracket estimation.
               </p>
             </div>
-            <span className="text-xs font-bold text-brand-600 flex items-center gap-1 pt-2">
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 pt-2 group-hover:translate-x-1 transition-transform">
               Launch BMI &rarr;
             </span>
           </Link>
 
           <Link
             href="/calculators/calories"
-            className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-400 transition-all flex flex-col justify-between group space-y-3"
+            className="group relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-xl hover:border-emerald-400/80 dark:hover:border-emerald-600/80 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-4"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition-transform">
-                <Flame className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/60 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                <Flame className="w-6 h-6" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-600">BMR & Daily Calories</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">BMR & Daily Calories</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                 Mifflin-St Jeor equation factoring in 5 distinct exercise activity levels.
               </p>
             </div>
-            <span className="text-xs font-bold text-brand-600 flex items-center gap-1 pt-2">
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 pt-2 group-hover:translate-x-1 transition-transform">
               Calculate TDEE &rarr;
             </span>
           </Link>
 
           <Link
             href="/calculators/macros"
-            className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-400 transition-all flex flex-col justify-between group space-y-3"
+            className="group relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-xl hover:border-emerald-400/80 dark:hover:border-emerald-600/80 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-4"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition-transform">
-                <BarChart3 className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                <BarChart3 className="w-6 h-6" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-600">Macro Calculator</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Macro Calculator</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                 Exact daily gram targets for Protein, Carbohydrates, Fats, and Fiber.
               </p>
             </div>
-            <span className="text-xs font-bold text-brand-600 flex items-center gap-1 pt-2">
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 pt-2 group-hover:translate-x-1 transition-transform">
               Split Macros &rarr;
             </span>
           </Link>
 
           <Link
             href="/calculators/meal-nutrition"
-            className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-400 transition-all flex flex-col justify-between group space-y-3"
+            className="group relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-xl hover:border-emerald-400/80 dark:hover:border-emerald-600/80 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-4"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition-transform">
-                <Layers className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200/60 dark:border-purple-800/60 flex items-center justify-center font-bold mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                <Layers className="w-6 h-6" />
               </div>
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-600">Composite Meal Calculator</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Composite Meal Calculator</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                 Combine 100g chicken + 150g rice + 50g dal to calculate total meal macros.
               </p>
             </div>
-            <span className="text-xs font-bold text-brand-600 flex items-center gap-1 pt-2">
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 pt-2 group-hover:translate-x-1 transition-transform">
               Build Meal &rarr;
             </span>
           </Link>

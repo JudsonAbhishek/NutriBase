@@ -37,7 +37,7 @@ export function MicroNutrientGrid({ vitamins, minerals, portionGrams = 100 }: Mi
     { name: "Zinc", value: minerals.zinc_mg, unit: "mg", dv: DAILY_VALUES.zinc_mg, desc: "Immunity & DNA Polymerase" },
     { name: "Copper", value: minerals.copper_mg, unit: "mg", dv: DAILY_VALUES.copper_mg, desc: "Iron Metabolism" },
     { name: "Manganese", value: minerals.manganese_mg, unit: "mg", dv: DAILY_VALUES.manganese_mg, desc: "Enzymatic Antioxidant SOD" },
-    { name: "Sodium", value: minerals.sodium_mg, unit: "mg", dv: DAILY_VALUES.sodium_mg, desc: "Fluid Volume Regulation" },
+    { name: "Sodium", value: minerals.sodium_mg, unit: "mg", dv: DAILY_VALUES.sodium_mg, desc: "Fluid Volume Regulation", goal: "limit" as const },
   ];
 
   const currentList = activeTab === "vitamins" ? vitaminList : mineralList;
@@ -51,7 +51,7 @@ export function MicroNutrientGrid({ vitamins, minerals, portionGrams = 100 }: Mi
             Micronutrient Profile ({portionGrams}g portion)
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Measured against FDA / ICMR Recommended Daily Value (% DV)
+            Measured against FDA / ICMR Daily Values. Green = aim to meet; amber = daily upper limit.
           </p>
         </div>
 
@@ -83,14 +83,19 @@ export function MicroNutrientGrid({ vitamins, minerals, portionGrams = 100 }: Mi
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         {currentList.map((item) => {
           const pct = Math.min(200, Math.round((item.value / item.dv) * 100));
+          // Sodium's DV is an upper limit, so a high share is a caution, not a win.
+          const isLimit = "goal" in item && item.goal === "limit";
           const isHigh = pct >= 20;
+          const flagged = isLimit ? pct >= 20 : isHigh;
 
           return (
             <div
               key={item.name}
               className={`p-3.5 rounded-2xl border transition-all ${
-                isHigh
-                  ? "bg-brand-50/40 border-brand-200"
+                flagged
+                  ? isLimit
+                    ? "bg-amber-50/50 border-amber-200"
+                    : "bg-brand-50/40 border-brand-200"
                   : "bg-slate-50/60 border-slate-200/80"
               }`}
             >
@@ -109,10 +114,14 @@ export function MicroNutrientGrid({ vitamins, minerals, portionGrams = 100 }: Mi
                   </span>
                   <span
                     className={`block text-[10px] font-bold ${
-                      isHigh ? "text-brand-600 font-extrabold" : "text-slate-400"
+                      flagged
+                        ? isLimit
+                          ? "text-amber-700 font-extrabold"
+                          : "text-brand-600 font-extrabold"
+                        : "text-slate-400"
                     }`}
                   >
-                    {pct}% DV
+                    {pct}% {isLimit ? "of daily limit" : "DV"}
                   </span>
                 </div>
               </div>
@@ -121,7 +130,13 @@ export function MicroNutrientGrid({ vitamins, minerals, portionGrams = 100 }: Mi
               <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    pct >= 50
+                    isLimit
+                      ? pct >= 50
+                        ? "bg-red-500"
+                        : pct >= 20
+                        ? "bg-amber-400"
+                        : "bg-slate-400"
+                      : pct >= 50
                       ? "bg-brand-500"
                       : pct >= 20
                       ? "bg-emerald-400"

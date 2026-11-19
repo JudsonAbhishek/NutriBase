@@ -74,19 +74,19 @@ export default function RankingsIndexPage() {
   const previewFoods = FoodRepository.getRankings("high-protein", 4);
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Title */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-sm">
             <Award className="w-3.5 h-3.5" />
             <span>Top Ranking Foods</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
             Top Ranking Foods
           </h1>
-          <p className="text-sm text-slate-600 leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             Explore foods ranked by protein, calories, fiber, and key minerals, using 100g reference values from USDA FoodData Central and ICMR-NIN.
           </p>
         </div>
@@ -99,27 +99,27 @@ export default function RankingsIndexPage() {
               <Link
                 key={rank.slug}
                 href={`/rankings/${rank.slug}`}
-                className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all flex flex-col justify-between group space-y-4"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-emerald-400 dark:hover:border-emerald-600 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group space-y-4"
               >
                 <div className="space-y-3">
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${rank.color} text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-brand-600 transition-colors">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                       {rank.title}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       {rank.description}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-slate-400 truncate max-w-[200px]">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate max-w-[200px]">
                     Leaders: {rank.topLead}
                   </span>
-                  <span className="font-bold text-brand-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                     Explore <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -129,19 +129,19 @@ export default function RankingsIndexPage() {
         </div>
 
         {/* Featured High Protein Ranking Preview */}
-        <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
                 Featured: Top High Protein Foods
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Highest protein concentration per 100g edible portion.
               </p>
             </div>
             <Link
               href="/rankings/high-protein"
-              className="text-xs font-bold text-brand-600 hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
             >
               View Full Top 20 &rarr;
             </Link>

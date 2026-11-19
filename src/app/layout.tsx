@@ -19,6 +19,9 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://nutribase.judsonabhishek4.workers.dev"
+  ),
   title: "NutriBase — Food & Nutrition Intelligence Platform",
   applicationName: "NutriBase",
   manifest: "/site.webmanifest",

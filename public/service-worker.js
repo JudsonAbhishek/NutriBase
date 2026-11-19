@@ -1,7 +1,5 @@
 const CACHE_PREFIX = "nutribase-static-";
-const STATIC_CACHE = `${CACHE_PREFIX}v1`;
 const FOOD_IMAGE_CACHE = `${CACHE_PREFIX}food-images-v1`;
-const MAX_CACHED_STATIC_ASSETS = 150;
 const MAX_CACHED_FOOD_IMAGES = 80;
 
 self.addEventListener("install", (event) => {
@@ -18,7 +16,6 @@ self.addEventListener("activate", (event) => {
             .filter(
               (cacheName) =>
                 cacheName.startsWith(CACHE_PREFIX) &&
-                cacheName !== STATIC_CACHE &&
                 cacheName !== FOOD_IMAGE_CACHE
             )
             .map((cacheName) => caches.delete(cacheName))
@@ -77,11 +74,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.startsWith("/_next/static/")) {
-    event.respondWith(
-      cacheFirst(request, STATIC_CACHE, MAX_CACHED_STATIC_ASSETS)
-    );
-  } else if (isFoodImageRequest(url)) {
+  if (isFoodImageRequest(url)) {
     event.respondWith(
       cacheFirst(request, FOOD_IMAGE_CACHE, MAX_CACHED_FOOD_IMAGES)
     );

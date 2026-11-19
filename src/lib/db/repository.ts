@@ -5,6 +5,7 @@ import { AllergenType, DietaryType, FoodItem, HealthGoal } from "@/types/nutriti
 export interface FoodFilterOptions {
   category?: string;
   dietaryType?: DietaryType | "all";
+  localMarketOnly?: boolean;
   search?: string;
   minProtein?: number;
   maxCalories?: number;
@@ -118,6 +119,11 @@ export class FoodRepository {
       } else {
         results = results.filter((f) => f.dietaryType === options.dietaryType);
       }
+    }
+
+    // 3b. Local / Home & Nearby Market Availability Filter
+    if (options.localMarketOnly) {
+      results = results.filter((f) => f.isLocalAvailable);
     }
 
     // 4. Quantitative Nutrition Thresholds
@@ -265,10 +271,16 @@ export class FoodRepository {
     diet: "all" | DietaryType;
     priorities: string[]; // ['high_protein', 'high_fiber', 'low_calorie', 'low_sugar', 'high_iron', 'high_calcium']
     cuisine?: string;
+    localMarketOnly?: boolean;
     maxCalories?: number;
     minProtein?: number;
   }): { food: FoodItem; matchReason: string; matchScore: number }[] {
     let pool = [...FOODS];
+
+    // Local / Home pantry & nearby market filter
+    if (criteria.localMarketOnly) {
+      pool = pool.filter((f) => f.isLocalAvailable);
+    }
 
     // Filter diet
     if (criteria.diet && criteria.diet !== "all") {

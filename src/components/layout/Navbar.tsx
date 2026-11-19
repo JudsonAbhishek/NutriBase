@@ -22,12 +22,13 @@ import {
   Droplets,
   PersonStanding,
   ChevronDown,
+  Store,
 } from "lucide-react";
 import { useNutri } from "@/context/NutriContext";
 
 export function Navbar() {
   const pathname = usePathname();
-  const { compareList, theme, toggleTheme } = useNutri();
+  const { compareList, theme, toggleTheme, localMarketOnly, toggleLocalMarketOnly } = useNutri();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
 
@@ -148,6 +149,26 @@ export function Navbar() {
               )}
             </div>
 
+            {/* Quick Local Mode Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleLocalMarketOnly}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                localMarketOnly
+                  ? "bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800 shadow-sm"
+                  : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 hover:border-emerald-300"
+              }`}
+              title={
+                localMarketOnly
+                  ? "Showing Local Market & Home Foods (Click to switch to All Foods)"
+                  : "Showing All Foods (Click to switch to Home & Local Market Foods)"
+              }
+            >
+              <Store className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>{localMarketOnly ? "Local" : "All"}</span>
+              <span className={`w-2 h-2 rounded-full ${localMarketOnly ? "bg-emerald-500 animate-pulse" : "bg-slate-400"}`} />
+            </button>
+
             <button
               type="button"
               onClick={toggleTheme}
@@ -217,14 +238,30 @@ export function Navbar() {
               );
             })}
           </div>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800"
-          >
-            {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            Switch to {theme === "light" ? "dark" : "light"} mode
-          </button>
+
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={toggleLocalMarketOnly}
+              className={`flex-1 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold border transition-all ${
+                localMarketOnly
+                  ? "bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+                  : "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-850 dark:text-slate-300 dark:border-slate-700"
+              }`}
+            >
+              <Store className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>{localMarketOnly ? "Local Mode (ON)" : "All Foods (OFF)"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex-1 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800"
+            >
+              {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              <span>{theme === "light" ? "Dark mode" : "Light mode"}</span>
+            </button>
+          </div>
         </div>
       )}
     </header>

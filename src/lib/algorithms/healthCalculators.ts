@@ -221,7 +221,13 @@ export function scaleNutrients(
     fiber: round1(baseNutrients.fiber),
     sugar: round1(baseNutrients.sugar),
     water: round1(baseNutrients.water),
-    saturatedFat: baseNutrients.saturatedFat ? round1(baseNutrients.saturatedFat) : undefined,
+    // Optional fields: `undefined` means the source record does not report the
+    // value and must stay undefined so the UI can distinguish it from a true 0.
+    saturatedFat: baseNutrients.saturatedFat === undefined ? undefined : round1(baseNutrients.saturatedFat),
+    monounsaturatedFat: baseNutrients.monounsaturatedFat === undefined ? undefined : round1(baseNutrients.monounsaturatedFat),
+    polyunsaturatedFat: baseNutrients.polyunsaturatedFat === undefined ? undefined : round1(baseNutrients.polyunsaturatedFat),
+    transFat: baseNutrients.transFat === undefined ? undefined : round2(baseNutrients.transFat),
+    cholesterolMg: baseNutrients.cholesterolMg === undefined ? undefined : round1(baseNutrients.cholesterolMg),
     netCarbs: Math.max(0, round1(baseNutrients.netCarbs)),
   };
 
@@ -249,6 +255,7 @@ export function scaleNutrients(
     zinc_mg: round2(baseMinerals.zinc_mg),
     copper_mg: round2(baseMinerals.copper_mg),
     manganese_mg: round2(baseMinerals.manganese_mg),
+    selenium_mcg: baseMinerals.selenium_mcg === undefined ? undefined : round1(baseMinerals.selenium_mcg),
   };
 
   return {

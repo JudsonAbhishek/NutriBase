@@ -5,8 +5,11 @@ import { FoodItem, ServingOption } from "@/types/nutrition";
 import { scaleNutrients } from "@/lib/algorithms/healthCalculators";
 import { MacroChart } from "./MacroChart";
 import { MicroNutrientGrid } from "./MicroNutrientGrid";
+import { MacroSummary } from "./MacroSummary";
 import { PlusCircle, RotateCcw } from "lucide-react";
 import { useNutri } from "@/context/NutriContext";
+
+const STANDARD_GRAM_PRESETS = [25, 50, 100, 150, 200, 250];
 
 interface ServingCalculatorProps {
   food: FoodItem;
@@ -99,17 +102,21 @@ export function ServingCalculator({ food }: ServingCalculatorProps) {
             );
           })}
 
-          {/* Quick 250g preset if not in servings */}
-          <button
-            onClick={() => handleCustomGramsChange(250)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-              isCustom && customGrams === 250
-                ? "bg-brand-600 text-white border-brand-600"
-                : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-            }`}
-          >
-            250g
-          </button>
+          {/* Standard gram presets */}
+          {STANDARD_GRAM_PRESETS.map((g) => (
+            <button
+              key={g}
+              onClick={() => handleCustomGramsChange(g)}
+              aria-pressed={isCustom && customGrams === g}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
+                isCustom && customGrams === g
+                  ? "bg-brand-600 text-white border-brand-600"
+                  : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+              }`}
+            >
+              {g}g
+            </button>
+          ))}
         </div>
       </div>
 
@@ -167,55 +174,13 @@ export function ServingCalculator({ food }: ServingCalculatorProps) {
         </div>
       </div>
 
-      {/* Recalculated Big Numbers Strip */}
-      <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-          Nutrition for {activeGrams}g Portion
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-          <div className="bg-slate-900 text-white rounded-2xl p-4 text-center shadow-sm">
-            <span className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">Calories</span>
-            <span className="text-2xl font-black tracking-tight text-brand-400">{scaled.nutrients.calories}</span>
-            <span className="text-[10px] text-slate-400 block mt-0.5">kcal</span>
-          </div>
-
-          <div className="bg-blue-50/70 border border-blue-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-blue-600 block mb-1">Protein</span>
-            <span className="text-2xl font-black tracking-tight text-blue-900">{scaled.nutrients.protein}</span>
-            <span className="text-[10px] text-blue-600 block mt-0.5">grams</span>
-          </div>
-
-          <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-amber-600 block mb-1">Carbohydrates</span>
-            <span className="text-2xl font-black tracking-tight text-amber-900">{scaled.nutrients.carbohydrates}</span>
-            <span className="text-[10px] text-amber-600 block mt-0.5">grams</span>
-          </div>
-
-          <div className="bg-rose-50/70 border border-rose-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-rose-600 block mb-1">Total Fat</span>
-            <span className="text-2xl font-black tracking-tight text-rose-900">{scaled.nutrients.fat}</span>
-            <span className="text-[10px] text-rose-600 block mt-0.5">grams</span>
-          </div>
-
-          <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-emerald-600 block mb-1">Dietary Fiber</span>
-            <span className="text-2xl font-black tracking-tight text-emerald-900">{scaled.nutrients.fiber}</span>
-            <span className="text-[10px] text-emerald-600 block mt-0.5">grams</span>
-          </div>
-
-          <div className="bg-pink-50/70 border border-pink-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-pink-600 block mb-1">Natural Sugar</span>
-            <span className="text-2xl font-black tracking-tight text-pink-900">{scaled.nutrients.sugar}</span>
-            <span className="text-[10px] text-pink-600 block mt-0.5">grams</span>
-          </div>
-
-          <div className="bg-cyan-50/70 border border-cyan-100 rounded-2xl p-4 text-center">
-            <span className="text-[10px] uppercase font-semibold text-cyan-600 block mb-1">Water Content</span>
-            <span className="text-2xl font-black tracking-tight text-cyan-900">{scaled.nutrients.water}</span>
-            <span className="text-[10px] text-cyan-600 block mt-0.5">grams</span>
-          </div>
-        </div>
-      </div>
+      {/* Macro summary: energy split, rings and reported sub-fractions */}
+      <MacroSummary
+        nutrients={scaled.nutrients}
+        grams={activeGrams}
+        basisLabel={isCustom ? `${activeGrams} g` : `${multiplier > 1 ? `${multiplier} x ` : ""}${selectedServing.label} (${activeGrams} g)`}
+        dataSource={food.dataSource}
+      />
 
       {/* Visual Chart Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center pt-4">

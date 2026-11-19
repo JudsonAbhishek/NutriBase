@@ -47,19 +47,19 @@ export default function CalculatorsHubPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-sm">
             <Calculator className="w-3.5 h-3.5" />
             <span>Clinical Nutrition Calculators</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             Scientific Dietary & Health Calculators
           </h1>
-          <p className="text-sm text-slate-600 leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             Evidence-based biometric calculations powered by internationally recognized equations (Mifflin-St Jeor, WHO BMI cutoffs, and ICMR daily reference intakes).
           </p>
         </div>
@@ -71,24 +71,24 @@ export default function CalculatorsHubPage() {
             return (
               <div
                 key={calc.slug}
-                className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-300 transition-all flex flex-col justify-between space-y-6 group"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-emerald-400 dark:hover:border-emerald-600 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-6 group"
               >
                 <div className="space-y-4">
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${calc.color} text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
+                    <h3 className="text-xl font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                       {calc.title}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       {calc.description}
                     </p>
                   </div>
-                  <ul className="space-y-1.5 pt-2 border-t border-slate-100 text-xs text-slate-600">
+                  <ul className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
                     {calc.features.map((f, i) => (
                       <li key={i} className="flex items-center gap-2">
-                        <span className="text-brand-500 font-bold">✓</span>
+                        <span className="text-emerald-500 font-black">✓</span>
                         <span>{f}</span>
                       </li>
                     ))}
@@ -97,10 +97,10 @@ export default function CalculatorsHubPage() {
 
                 <Link
                   href={calc.slug}
-                  className="w-full py-3 rounded-xl bg-slate-50 hover:bg-brand-600 hover:text-white border border-slate-200 hover:border-brand-600 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  className="w-full py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm group-hover:border-emerald-600"
                 >
                   <span>Launch Calculator</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             );
@@ -108,7 +108,7 @@ export default function CalculatorsHubPage() {
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-slate-100/80 rounded-2xl p-4 text-center text-xs text-slate-500 max-w-2xl mx-auto flex items-center justify-center gap-2">
+        <div className="bg-slate-100/80 dark:bg-slate-900/80 rounded-2xl p-4 text-center text-xs text-slate-500 dark:text-slate-400 max-w-2xl mx-auto flex items-center justify-center gap-2 border border-slate-200/60 dark:border-slate-800">
           <ShieldCheck className="w-4 h-4 text-slate-400 flex-shrink-0" />
           <span>Notice: All calculator calculations are intended for general nutritional guidance and wellness tracking.</span>
         </div>

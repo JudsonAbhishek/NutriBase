@@ -134,6 +134,7 @@ export interface FoodItem {
   referenceBasis: string; // e.g. "100g edible portion"
   lastUpdated: string;
   isVerified: boolean;
+  isLocalAvailable?: boolean; // Available at home pantry or local nearby market
   
   // Nutrients per 100g
   nutrients: Macronutrients;
